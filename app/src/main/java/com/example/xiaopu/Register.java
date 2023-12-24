@@ -108,9 +108,9 @@ public class Register extends AppCompatActivity {
                 }
                 //登录事件
                 if(password_currect) {
-                    Toast.makeText(Register.this, "登录成功！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "注册成功！", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Register.this, "密码错误！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "注册失败！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
