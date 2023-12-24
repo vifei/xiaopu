@@ -2,6 +2,7 @@ package com.example.xiaopu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ public class Login extends AppCompatActivity {
     private EditText et_username;
     private EditText et_password;
     private Button btn_login;
+    private Button btn_register;
 
     //全局变量
     private boolean password_currect = false;
@@ -31,12 +33,18 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         initView();
         initEvent();
+
+
+
+
     }
 
     public void initView(){
         et_username = this.findViewById(R.id.ed_login_account);
         et_password = this.findViewById(R.id.edt_login_password);
         btn_login = this.findViewById(R.id.btn_login);
+        btn_register = this.findViewById(R.id.btn_register);
+
     }
 
     public void initEvent(){
@@ -88,6 +96,16 @@ public class Login extends AppCompatActivity {
                 } else {
                     Toast.makeText(Login.this, "密码错误！", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btn_register.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
+                Login.this.finish();
             }
         });
     }
