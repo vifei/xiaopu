@@ -16,6 +16,12 @@ import com.example.xiaopu.utils.HttpUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class Login extends AppCompatActivity {
 
     //控件
@@ -33,10 +39,30 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         initView();
         initEvent();
+        copyPrepopulatedDatabase();
+    }
 
+    private void copyPrepopulatedDatabase() {
+        File databaseFile = getApplicationContext().getDatabasePath("mydatabase.db");
+        if (!databaseFile.exists()) {
+            // 如果数据库文件不存在，复制预填充数据库文件到内部存储
+            try {
+                InputStream inputStream = getApplicationContext().getAssets().open("databases/mydatabase.db");
+                OutputStream outputStream = new FileOutputStream(databaseFile);
 
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
 
-
+                outputStream.flush();
+                outputStream.close();
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void initView(){
@@ -93,6 +119,9 @@ public class Login extends AppCompatActivity {
                 //登录事件
                 if(password_currect) {
                     Toast.makeText(Login.this, "登录成功！", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this, Exam.class);
+                    startActivity(intent);
+                    Login.this.finish();
                 } else {
                     Toast.makeText(Login.this, "密码错误！", Toast.LENGTH_SHORT).show();
                 }
