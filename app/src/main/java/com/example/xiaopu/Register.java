@@ -109,6 +109,9 @@ public class Register extends AppCompatActivity {
                 //登录事件
                 if(password_currect) {
                     Toast.makeText(Register.this, "注册成功！", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Register.this, Exam.class);
+                    startActivity(intent);
+                    Register.this.finish();
                 } else {
                     Toast.makeText(Register.this, "注册失败！", Toast.LENGTH_SHORT).show();
                 }
