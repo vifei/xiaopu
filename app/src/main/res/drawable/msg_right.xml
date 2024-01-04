@@ -1,0 +1,8 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:src="@drawable/message_right"
+
+            android:layout_width="10dp"/>
+    </item>
+</layer-list>

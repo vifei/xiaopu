@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/navigation_item1"
+        android:icon="@drawable/index"
+ />
+    <item
+        android:id="@+id/navigation_item2"
+        android:icon="@drawable/talk" />
+    <item
+        android:id="@+id/navigation_item3"
+        android:icon="@drawable/my" />
+</menu>

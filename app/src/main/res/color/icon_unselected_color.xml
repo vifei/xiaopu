@@ -1,0 +1,7 @@
+<!-- res/color/brighter_icon_color.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 未选中状态时的颜色 -->
+    <item android:color="#66FFA500" android:state_checked="false" />
+    <!-- 选中状态时的颜色 -->
+    <item android:color="#FFA500" android:state_checked="true" />
+</selector>

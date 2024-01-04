@@ -25,7 +25,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@id/imageButton1"
+        android:id="@id/imageButton"
         android:src="@drawable/talk_2"
         android:background="#FDEEDC"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,18 +34,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintVertical_bias="0.798"/>
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@id/imageButton2"
-        android:src="@drawable/talk_3"
-        android:background="#FDEEDC"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
-        app:layout_constraintVertical_bias="0.889"/>
+
 
 
 

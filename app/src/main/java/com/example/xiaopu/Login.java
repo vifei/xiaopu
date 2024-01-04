@@ -3,12 +3,11 @@ package com.example.xiaopu;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xiaopu.utils.HttpUtils;
@@ -99,8 +98,17 @@ public class Login extends AppCompatActivity {
                         String result = HttpUtils.postJsonContent("http://849p815u54.zicp.fun:48340/user/login", jsonString);
                         try {
                             JSONObject jsonObject = new JSONObject(result);
-
                             if(jsonObject.getInt("code") == 200) {
+                                JSONObject userDataJson = jsonObject.getJSONObject("data").getJSONObject("user");
+                                //获取SharedPreferences对象
+                                SharedPreferences sharedPreferences = getSharedPreferences("user",MODE_PRIVATE);
+                                //获取Editor对象的引用
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                //将获取过来的值放入文件
+                                editor.putString("user_data", userDataJson.toString());
+                                // 提交数据
+                                editor.apply();
+
                                 password_currect = true;
                             } else {
                                 password_currect = false;
@@ -119,7 +127,7 @@ public class Login extends AppCompatActivity {
                 //登录事件
                 if(password_currect) {
                     Toast.makeText(Login.this, "登录成功！", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Login.this, Exam.class);
+                    Intent intent = new Intent(Login.this, Main.class);
                     startActivity(intent);
                     Login.this.finish();
                 } else {

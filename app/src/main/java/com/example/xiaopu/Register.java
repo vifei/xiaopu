@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +24,8 @@ public class Register extends AppCompatActivity {
     private EditText et_password;
     private EditText et_password_again;
     private Button btn_register;
+
+    private String msg;
 
     //全局变量
     private boolean password_currect = false;
@@ -81,7 +81,6 @@ public class Register extends AppCompatActivity {
                 }
 
                 String jsonString = jsonData.toString();
-
                 //调用API验证用户名密码是否正确
                 Thread thread = new Thread(new Runnable() {
                     @Override
@@ -93,6 +92,7 @@ public class Register extends AppCompatActivity {
                             if(jsonObject.getInt("code") == 200) {
                                 password_currect = true;
                             } else {
+                                msg = jsonObject.getString("msg");
                                 password_currect = false;
                             }
                         } catch (JSONException e) {
@@ -109,11 +109,11 @@ public class Register extends AppCompatActivity {
                 //登录事件
                 if(password_currect) {
                     Toast.makeText(Register.this, "注册成功！", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Register.this, Exam.class);
+                    Intent intent = new Intent(Register.this, Main.class);
                     startActivity(intent);
                     Register.this.finish();
                 } else {
-                    Toast.makeText(Register.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, msg, Toast.LENGTH_SHORT).show();
                 }
             }
         });
