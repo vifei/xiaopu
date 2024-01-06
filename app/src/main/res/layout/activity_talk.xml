@@ -8,25 +8,26 @@
 
 
     <EditText
+        android:id="@+id/editText_talk"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.15"
-        app:layout_constraintWidth_percent="0.76"
         android:background="@drawable/talk_1"
+        android:gravity="top"
+        android:hint="@string/hint_talk"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.88"
-        app:layout_constraintHorizontal_bias="0.2"
-        android:hint=" 输入你想说的话..."
-        android:gravity="top"/>
+        app:layout_constraintWidth_percent="0.76" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@id/imageButton1"
-        android:src="@drawable/talk_2"
+        android:id="@id/imageButton_talk"
+        android:src="@drawable/talk_character"
         android:background="#FDEEDC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,18 +35,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintVertical_bias="0.798"/>
+
     <ImageButton
+
+        android:id="@+id/imageButton_voice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@id/imageButton2"
-        android:src="@drawable/talk_3"
         android:background="#FDEEDC"
+        android:src="@drawable/talk_voice"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
-        app:layout_constraintVertical_bias="0.889"/>
+        app:layout_constraintVertical_bias="0.889" />
 
 
 
@@ -62,7 +65,7 @@
 
 
         <ImageButton
-            android:id="@+id/imageButton7"
+            android:id="@+id/imageButton_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -70,10 +73,10 @@
             app:srcCompat="@drawable/btn_index"
             tools:ignore="SpeakableTextPresentCheck"
             android:background="#FDEEDC"
-            android:contentDescription="主页" />
+            android:contentDescription="@string/home" />
 
         <ImageButton
-            android:id="@+id/imageButton8"
+            android:id="@+id/imageButton_talk"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,10 +84,10 @@
             app:srcCompat="@drawable/btn_talk"
             android:background="#FDEEDC"
             tools:ignore="SpeakableTextPresentCheck"
-            android:contentDescription="对话"/>
+            android:contentDescription="@string/talk"/>
 
         <ImageButton
-            android:id="@+id/imageButton9"
+            android:id="@+id/imageButton_personal"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,7 +95,7 @@
             app:srcCompat="@drawable/btn_my"
             android:background="#FDEEDC"
             tools:ignore="SpeakableTextPresentCheck"
-            android:contentDescription="个人中心"/>
+            android:contentDescription="@string/personal"/>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 

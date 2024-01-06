@@ -1,4 +1,21 @@
 <resources>
     <string name="app_name">xiaopu</string>
     <string name="title_activity_exam">Exam</string>
+    <string name="tx">头像</string>
+    <string name="account">账号：</string>
+    <string name="name">昵称：</string>
+    <string name="gender">性别：</string>
+    <string name="birthday">生日：</string>
+    <string name="signature">个性签名：</string>
+    <string name="age">年龄：</string>
+    <string name="password">密码：</string>
+    <string name="label">自我标签：</string>
+    <string name="school">学校：</string>
+    <string name="home">主页</string>
+    <string name="talk">对话</string>
+    <string name="personal">个人中心</string>
+    <string name="log_out">退出登录</string>
+    <string name="log_in">登录</string>
+    <string name="modify_data">修改资料</string>
+    <string name="hint_talk">输入你想说的话...</string>
 </resources>

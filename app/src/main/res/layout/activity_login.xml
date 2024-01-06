@@ -16,7 +16,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"></View>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <View
         android:id="@+id/view"
@@ -25,10 +25,10 @@
         android:background="#fdeedc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></View>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView110"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
@@ -39,7 +39,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view2"
-        android:text="登录" />
+        android:text="@string/log_in" />
 
     <View
         android:id="@+id/view6"
@@ -51,7 +51,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.122"></View>
+        app:layout_constraintVertical_bias="0.122"/>
 
     <View
         android:id="@+id/view4"
@@ -63,7 +63,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/view2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.371"></View>
+        app:layout_constraintVertical_bias="0.371"/>
 
 
     <TextView
@@ -82,7 +82,7 @@
         app:layout_constraintStart_toStartOf="@+id/view4"
         app:layout_constraintTop_toTopOf="@+id/view4"
         app:layout_constraintVertical_bias="0.0"
-        android:text="账号：" />
+        android:text="@string/account" />
 
     <EditText
         android:id="@+id/ed_login_account"
@@ -94,7 +94,7 @@
         app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="@+id/view4"
         app:layout_constraintTop_toTopOf="@+id/view4"
-        app:layout_constraintVertical_bias="0.803"></EditText>
+        app:layout_constraintVertical_bias="0.803"/>
 
     <View
         android:id="@+id/view5"
@@ -106,7 +106,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.579"></View>
+        app:layout_constraintVertical_bias="0.579"/>
 
     <TextView
         android:layout_width="78dp"
@@ -121,7 +121,7 @@
         app:layout_constraintStart_toStartOf="@+id/view5"
         app:layout_constraintTop_toTopOf="@+id/view5"
         app:layout_constraintVertical_bias="0.259"
-        android:text="密码：" />
+        android:text="@string/password" />
 
 
     <EditText
@@ -135,7 +135,7 @@
         app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="@+id/view5"
         app:layout_constraintTop_toTopOf="@+id/view5"
-        app:layout_constraintVertical_bias="0.833"></EditText>
+        app:layout_constraintVertical_bias="0.833"/>
 
     <Button
         android:id="@+id/btn_login"

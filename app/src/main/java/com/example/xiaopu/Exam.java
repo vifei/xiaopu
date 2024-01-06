@@ -24,8 +24,21 @@ public class Exam extends Activity {
     private int count;
     private int current;
     private boolean wrongMode;
+
+//    private TextView question;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+//        question = findViewById(R.id.question);
+//
+//        Question[] questions;
+//        Button a;
+//        a.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                textview.settext(quseions[i++]);
+//            }
+//        });
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
