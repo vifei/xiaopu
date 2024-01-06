@@ -54,6 +54,25 @@ public class HttpUtils {
         return "";
     }
 
+    public static String getJsonContent(String urlPath) {
+        try {
+            URL url = new URL(urlPath);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(3000);
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+
+            int code = connection.getResponseCode();
+
+            if (code == HttpURLConnection.HTTP_OK) {
+                return changeInputStream(connection.getInputStream());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     private static String changeInputStream(InputStream inputStream) {
         String jsonString = "";
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

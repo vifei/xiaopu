@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,21 +14,32 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.xiaopu.adapter.MyFragmentPagerAdapter;
+import com.example.xiaopu.bean.Talks;
+import com.example.xiaopu.utils.HttpUtils;
+import com.example.xiaopu.utils.TalksDbOpenHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends AppCompatActivity {
 
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initPager();
         initBottomNavigationView();
+
 
     }
 
@@ -78,11 +91,6 @@ public class Main extends AppCompatActivity {
 
     }
 
-    void setbuttonAlpha(){
-        int selectedItemId = bottomNavigationView.getSelectedItemId();
-        MenuItem menuItem = bottomNavigationView.getMenu().getItem(selectedItemId);
-        Drawable icon = menuItem.getIcon();
-        icon.setAlpha(100);
-    }
+
 
 }

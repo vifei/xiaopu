@@ -6,6 +6,7 @@
 
     <LinearLayout
         android:id="@+id/left_layout"
+        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
@@ -24,6 +25,7 @@
 
     <LinearLayout
         android:id="@+id/right_layout"
+        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

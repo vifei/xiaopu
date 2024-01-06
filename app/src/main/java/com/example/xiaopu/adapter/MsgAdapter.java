@@ -18,6 +18,11 @@ import java.util.List;
 public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>{
 
     private List<Msg> list;
+
+    public void setList(List<Msg> list) {
+        this.list = list;
+    }
+
     public MsgAdapter(List<Msg> list){
         this.list = list;
     }
