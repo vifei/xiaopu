@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 
 public class DBService {
-   private SQLiteDatabase db;
+   private final SQLiteDatabase db;
    public DBService(){
       db=SQLiteDatabase.openDatabase("/data/data/com.example.xiaopu/databases/mydatabase.db", null, SQLiteDatabase.OPEN_READONLY);
    }

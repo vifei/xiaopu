@@ -39,27 +39,27 @@ public class Exam extends Activity {
         for (int i = 0; i < count; i++) {
             Log.d("listlist", list.get(i).toString());
         }
-        final TextView tv_question=(TextView) findViewById(R.id.question);
+        final TextView tv_question= findViewById(R.id.question);
 
         final RadioButton[]radioButtons=new RadioButton[2];
 
         //四个选项按钮
 
-        radioButtons[0]=(RadioButton) findViewById(R.id.AnswerA);
-        radioButtons[1]=(RadioButton) findViewById(R.id.AnswerB);
+        radioButtons[0]= findViewById(R.id.AnswerA);
+        radioButtons[1]= findViewById(R.id.AnswerB);
 
 
         //两个前一题和后一题的按钮
 
-        Button btn_next=(Button) findViewById(R.id.btn_next);
-        Button btn_previous=(Button) findViewById(R.id.btn_previous);
-        final RadioGroup radioGroup=(RadioGroup) findViewById(R.id.radioGroup);
+        Button btn_next= findViewById(R.id.btn_next);
+        Button btn_previous= findViewById(R.id.btn_previous);
+        final RadioGroup radioGroup= findViewById(R.id.radioGroup);
 
         //将第一题先赋值
         Question q=list.get(0);
         tv_question.setText(q.getTestcontent());
         radioButtons[0].setText("A."+q.getAnswera());
-        radioButtons[1].setText("B."+q.getAnswera());
+        radioButtons[1].setText("B."+q.getAnswerb());
 
 
         //下一题
@@ -83,7 +83,7 @@ public class Exam extends Activity {
 
                     tv_question.setText(q.getTestcontent());
                     radioButtons[0].setText("A."+q.getAnswera());
-                    radioButtons[1].setText("B."+q.getAnswera());
+                    radioButtons[1].setText("B."+q.getAnswerb());
 
 
                     radioGroup.clearCheck();
@@ -146,7 +146,7 @@ public class Exam extends Activity {
                     tv_question.setText(q.getTestcontent());
 
                     radioButtons[0].setText("A."+q.getAnswera());
-                    radioButtons[1].setText("B."+q.getAnswera());
+                    radioButtons[1].setText("B."+q.getAnswerb());
 
 
                     radioGroup.clearCheck();
@@ -164,7 +164,7 @@ public class Exam extends Activity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 for(int i=0;i<2;++i){
-                    if(radioButtons[i].isChecked()==true){
+                    if(radioButtons[i].isChecked()){
 
                         list.get(current).setSelectedAnswer(i);
                         break;

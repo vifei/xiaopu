@@ -3,11 +3,14 @@
     <item
         android:id="@+id/navigation_item1"
         android:icon="@drawable/index"
+        android:title="发现精彩"
  />
     <item
+        android:title="小朴聊天室"
         android:id="@+id/navigation_item2"
         android:icon="@drawable/talk" />
     <item
+        android:title="个人中心"
         android:id="@+id/navigation_item3"
         android:icon="@drawable/my" />
 </menu>

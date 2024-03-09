@@ -1,14 +1,22 @@
 package com.example.xiaopu;
 
+//import static com.zhipu.oapi.demo.V4OkHttpClientTest.mapStreamToAccumulator;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -18,18 +26,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.example.xiaopu.adapter.MsgAdapter;
 import com.example.xiaopu.bean.Msg;
 import com.example.xiaopu.bean.Talks;
 import com.example.xiaopu.utils.HttpUtils;
 import com.example.xiaopu.utils.TalksDbOpenHelper;
 import com.example.xiaopu.utils.ZhiPu;
+//import com.zhipu.oapi.service.v4.model.ChatMessageAccumulator;
+//import com.zhipu.oapi.service.v4.model.ModelApiResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -38,6 +53,14 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import android.Manifest;
+import android.widget.Toast;
+
+import io.ikfly.constant.OutputFormat;
+import io.ikfly.constant.VoiceEnum;
+import io.ikfly.model.SSML;
+import io.ikfly.service.TTSService;
+//import io.reactivex.disposables.Disposable;
 
 public class Talk extends Fragment {
 
@@ -49,6 +72,15 @@ public class Talk extends Fragment {
     private LinearLayoutManager layoutManager;
     private MsgAdapter adapter;
     private View rootView;
+    private ImageView imageView;
+    private boolean Change = false;
+    private boolean isPlaying = true;
+
+
+    private MyHandler myHandler;
+//    private Drawable drawable;
+//    private GifDrawable gifDrawable;
+
     List<Talks> talksList = new ArrayList<>();
     private static final ZhiPu zhipu = new ZhiPu();
 
@@ -61,7 +93,7 @@ public class Talk extends Fragment {
     private TalksDbOpenHelper talksDbOpenHelper;
 
 
-    private ThreadPoolExecutor  executor = new ThreadPoolExecutor(5, 10, 1L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(100), new ThreadPoolExecutor.CallerRunsPolicy());
+    private final ThreadPoolExecutor  executor = new ThreadPoolExecutor(5, 10, 1L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(100), new ThreadPoolExecutor.CallerRunsPolicy());
 
     class MyHandler extends Handler {
         private String content = "";
@@ -73,19 +105,28 @@ public class Talk extends Fragment {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            Log.d("handler", String.valueOf(msg.what));
+            Log.d("handlertest", String.valueOf(msg.what));
             if (msg.what == 1) {
                 this.content = this.content + msg.obj.toString();
                 Msg mymsg = new Msg(content, Msg.TYPE_RECEIVED);
                 if (msgList.get(msgList.size() - 1 ).getType() == Msg.TYPE_SEND) {
                     msgList.add(mymsg);
+                    adapter.notifyItemInserted(msgList.size()-1);
                 }
                 else {
                     msgList.get(msgList.size() - 1).setContent(content);
+                    adapter.notifyItemChanged(msgList.size()-1);
                 }
-                adapter.notifyItemChanged(msgList.size()-1);
-            } else if (msg.what == 2) {
                 msgRecyclerView.scrollToPosition(msgList.size()-1);
+
+            } else if (msg.what == 2) {
+//                this.content = "";
+
+//                msgRecyclerView.scrollToPosition(msgList.size()-1);
+//                Change = true;
+                notifyTTS();
+            } else if (msg.what == 3) {
+                nitifyStartPlay();
             }
         }
 
@@ -93,6 +134,7 @@ public class Talk extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -115,14 +157,41 @@ public class Talk extends Fragment {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+        myHandler = new MyHandler(Looper.getMainLooper());
+        voice = rootView.findViewById(R.id.voice);
+        imageView = rootView.findViewById(R.id.image_xiaopu);
+//        animationDrawable = (AnimationDrawable) imageView.getBackground();
+
+
+
+//
+
+
+
+//        StopGif();
+//
+
+//        imageView.setOnClickListener(v -> {
+//            if (isPlaying) {
+//                Glide.with(getContext()).pauseRequests();
+//            } else {
+//                Glide.with(getContext()).resumeRequests();
+//            }
+//            isPlaying = !isPlaying;
+//        });
+
+
         msgRecyclerView = rootView.findViewById(R.id.msg_recycler_view);
         inputText = rootView.findViewById(R.id.input_text);
         send = rootView.findViewById(R.id.send);
+
         layoutManager = new LinearLayoutManager(rootView.getContext());
         adapter = new MsgAdapter(msgList = getData());
 
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);
+
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,11 +297,84 @@ public class Talk extends Fragment {
     }
 
 
+
     @Override
     public void onStart() {
         super.onStart();
 
 
+//        drawable = imageView.getDrawable();
+//
+//        if (drawable instanceof GifDrawable) {
+//            gifDrawable = (GifDrawable) drawable;
+//            Log.d("comaaaaaaaaaa", "onStart: ");
+//        }
+//        if (gifDrawable.isRunning())
+//            gifDrawable.stop();
+
+
+//        Intent intent = new Intent(getActivity() , PermissionActivity.class);
+//
+//
+//        startActivity(intent);
+
+        voice.setOnClickListener(v -> {
+            // 检查是否已经获得了某个权限
+            int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+
+//// 检查权限是否已被授予
+//            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+//                // 权限已被授予
+//                // 执行相应的操作
+//            } else {
+//                // 权限未被授予
+//                // 提示用户需要授予权限
+//                ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_MEDIA_AUDIO}, 1);
+//
+//
+//            }
+
+            permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.MANAGE_EXTERNAL_STORAGE);
+            if (permissionCheck == PackageManager.PERMISSION_DENIED){
+                Log.d("permmmmm", "onStart: ");
+                ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
+            Log.d("pathpath", Environment.getExternalStorageDirectory().getAbsolutePath());
+
+
+
+
+
+//            try {
+//                //方法一
+//                File timpfile = File.createTempFile("scc2022", ".mp3", getActivity().getCacheDir());
+//                Log.e("File","是否存在："+timpfile.exists());
+//                Log.e("File","timpfile："+timpfile.getAbsolutePath());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable drawable = imageView.getDrawable();
+                if (drawable instanceof GifDrawable) {
+                    GifDrawable gifDrawable = (GifDrawable) drawable;
+                    if (gifDrawable.isRunning()) {
+                        gifDrawable.stop();
+                    } else {
+                        gifDrawable.start();
+                    }
+                }
+            }
+        });
+
+//        StopGif();
+
+//        animationDrawable.start();
         try {
             if (future_gettalks.get()) {
 
@@ -264,6 +406,30 @@ public class Talk extends Fragment {
 
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+////        Drawable drawable = imageView.getDrawable();
+////        if (drawable instanceof GifDrawable) {
+////            GifDrawable gifDrawable = (GifDrawable) drawable;
+////            if (gifDrawable.isRunning()) {
+////                gifDrawable.stop();
+////            } else {
+////                gifDrawable.start();
+////            }
+////        }
+//        voice.setOnClickListener(v -> {
+//            TTSService ts = new TTSService();
+//            ts.sendText(SSML.builder()
+//                    .synthesisText("文件名自动生成测试文本")
+//                    .usePlayer(true) // 语音播放
+//                    .build());
+//
+//            ts.close();
+//        });
+//
+//
+//    }
 
     private List<Msg> getData(){
         List<Msg> list = new ArrayList<>();
@@ -276,4 +442,97 @@ public class Talk extends Fragment {
         list.add(new Msg("您好，我是小朴，很高兴为您提供情感陪伴和支持。请问您有什么问题或烦恼想要分享呢？我们可以一起来面对和解决。",Msg.TYPE_RECEIVED));
         return list;
     }
+
+
+    private void notifyTTS() {
+        TTS(myHandler);
+    }
+
+    private void nitifyStartPlay() {
+        Play(myHandler);
+    }
+
+    void PlayGif(){
+        Glide.with(getContext())
+                .asGif()
+                .load(R.drawable.xiaopu) // 替换为你自己的GIF资源
+                .into(imageView);
+        Drawable drawable = imageView.getDrawable();
+        if (drawable instanceof GifDrawable) {
+            GifDrawable gifDrawable = (GifDrawable) drawable;
+            if (!gifDrawable.isRunning()) {
+                gifDrawable.start();
+            }
+        }
+    }
+
+    void StopGif(){
+        Glide.with(getContext())
+                .asGif()
+                .load(R.drawable.xiaopu) // 替换为你自己的GIF资源
+                .into(imageView);
+        Drawable drawable = imageView.getDrawable();
+        if (drawable instanceof GifDrawable) {
+            GifDrawable gifDrawable = (GifDrawable) drawable;
+            if (gifDrawable.isRunning()) {
+                gifDrawable.stop();
+            }
+        }
+    }
+
+    private void Play(Handler handler){
+        PlayGif();
+
+        String audioFilePath = getActivity().getCacheDir().getPath() + "//1.mp3";
+
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        File audioFile = new File(audioFilePath);
+        try {
+            mediaPlayer.setDataSource(audioFile.getAbsolutePath());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            Toast.makeText(getContext(), "Audio playing", Toast.LENGTH_SHORT).show();
+
+            // 添加播放完成监听器
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    handler.sendMessage(handler.obtainMessage(4));
+                    StopGif();
+
+                    // 在这里执行播放完成后的逻辑
+                    Toast.makeText(getContext(), "Audio playback completed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void TTS(Handler handler) {
+        TTSService ts = new TTSService();
+        Log.d(":cachedird", getActivity().getCacheDir().getPath());
+        Log.d(":cachedird", getActivity().getCacheDir().toString());
+        ts.setBaseSavePath(getActivity().getCacheDir().getPath() + "//"); // 设置保存路径
+        SSML ssml = SSML.builder()
+                .outputFormat(OutputFormat.audio_24khz_48kbitrate_mono_mp3)
+                .synthesisText(msgList.get(msgList.size()-1).getContent())
+                .outputFileName("1")
+                .voice(VoiceEnum.zh_CN_XiaoxiaoNeural)
+                .build();
+        ts.sendText(ssml);
+
+        new Thread() {
+            @Override
+            public void run() {
+                ts.close();
+
+                handler.sendMessage(handler.obtainMessage(3));
+            }
+        }.start();
+    }
+
 }
+

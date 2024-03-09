@@ -11,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class HttpUtils {
 
@@ -30,7 +31,7 @@ public class HttpUtils {
             connection.setDoInput(true);
 
             OutputStream outputStream = connection.getOutputStream();
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
             // 将JSON数据写入输出流
             bufferedWriter.write(jsonData);
             // 刷新缓冲区
@@ -82,7 +83,7 @@ public class HttpUtils {
             while ((len = inputStream.read(data)) != -1) {
                 outputStream.write(data, 0, len);
             }
-            jsonString = new String(outputStream.toByteArray());
+            jsonString = outputStream.toString();
             return jsonString;
         } catch (IOException e) {
             e.printStackTrace();

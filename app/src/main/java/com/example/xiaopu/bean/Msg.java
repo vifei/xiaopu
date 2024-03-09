@@ -17,7 +17,7 @@ public class Msg {
     }
 
     private String content;
-    private int type;
+    private final int type;
 
     public Msg(String content,int type){
         this.content = content;

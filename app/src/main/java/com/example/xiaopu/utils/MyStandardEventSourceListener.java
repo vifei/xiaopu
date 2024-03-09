@@ -22,7 +22,7 @@ public class MyStandardEventSourceListener extends ModelEventSourceListener {
     private String outputText = "";
     private boolean incremental;
     protected CountDownLatch countDownLatch = new CountDownLatch(1);
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
     private SseMeta meta;
 
 
@@ -48,7 +48,7 @@ public class MyStandardEventSourceListener extends ModelEventSourceListener {
         if ("finish".equals(type)) {
             JSONObject jsonObject = JSON.parseObject(data);
             String meta = jsonObject.getString("meta");
-            this.meta = (SseMeta)this.gson.fromJson(meta, SseMeta.class);
+            this.meta = this.gson.fromJson(meta, SseMeta.class);
             handler.sendMessage(handler.obtainMessage(2));
 
         }

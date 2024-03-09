@@ -95,7 +95,7 @@ public class Login extends AppCompatActivity {
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String result = HttpUtils.postJsonContent("http://849p815u54.zicp.fun:48340/user/login", jsonString);
+                        String result = HttpUtils.postJsonContent("http://849p815u54.zicp.fun:80/user/login", jsonString);
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             if(jsonObject.getInt("code") == 200) {
